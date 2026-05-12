@@ -9,10 +9,12 @@ Nginx Proxy Manager pozwala ustawić domyślną stronę błędu dla niezdefiniow
 ## Deployment
 
 ```bash
-docker compose up -d
+docker compose up -d --build
 ```
 
 Kontener uruchamia się na porcie `8091`. W Nginx Proxy Manager: **New Proxy Host** → Forward Hostname `localhost`, Port `8091`.
+
+> Po każdej zmianie plików w `site/` wymagany rebuild: `docker compose up -d --build`
 
 ## Easter eggi
 
