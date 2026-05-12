@@ -1,9 +1,9 @@
 services:
   gdgpw-404:
-    image: nginx:alpine
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: gdgpw-404
     restart: always
     ports:
       - "8091:80"
-    volumes:
-      - ./site:/usr/share/nginx/html
