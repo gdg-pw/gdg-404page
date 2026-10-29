@@ -1,0 +1,148 @@
+/* Efekty: tło z symbolami, terminal, corgi na terminalu, easter eggi */
+
+/* ---------- Tło z pływającymi symbolami ---------- */
+#bg-canvas {
+  position: fixed; inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.code-symbol {
+  position: absolute;
+  opacity: 0.10;                       /* przezroczystość symboli */
+  font-size: 1.1rem;
+  font-family: var(--font-mono);
+  animation: floatSymbol 15s infinite linear;
+}
+@keyframes floatSymbol {
+  from { transform: translateY(110vh) rotate(0deg); }
+  to   { transform: translateY(-20vh) rotate(360deg); }
+}
+
+/* Treść nad tłem */
+main, .footer { position: relative; z-index: 1; }
+
+/* ---------- Logo w headerze ---------- */
+.logo-img { height: 48px; width: auto; display: block; transform: translateY(-11.5%); }   /* znak w headerze. Przesunięty w górę o corgiego nad nawiasami, żeby na środku headera były nawiasy, nie cały obrazek */
+
+/* ---------- Terminal ---------- */
+.terminal-box {
+  position: relative;
+  max-width: 720px;
+  margin: 9rem auto 0;                  /* miejsce na corgiego nad terminalem */
+}
+.terminal {
+  position: relative; z-index: 2;
+  font-family: var(--font-mono);
+  background: var(--bg);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 36px;
+  text-align: left;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.terminal-header { display: flex; gap: 12px; margin-bottom: 18px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; }
+.dot.red    { background: var(--red); }
+.dot.yellow { background: var(--yellow); }
+.dot.green  { background: var(--green); }
+.terminal-text { font-size: 1rem; line-height: 1.75; overflow-wrap: anywhere; }
+.t-green  { color: var(--green); }
+.t-blue   { color: var(--blue); }
+.t-yellow { color: var(--yellow); }
+.t-red    { color: var(--red); }
+
+/* Kropki terminala (js/terminal.js) */
+.terminal.minimized .terminal-text { display: none; }                      /* żółta */
+.terminal.closed { opacity: 0.25; transform: scale(0.97); }                 /* czerwona */
+.terminal-error { color: var(--red); margin-top: 0.75rem; }
+
+/* ---------- Corgi chodzi po terminalu (js/corgi.js) ---------- */
+.corgi-sprite {
+  position: absolute; left: 0;
+  bottom: calc(100% - 12px);             /* łapy na górnej ramce terminala */
+  width: 150px;
+  z-index: 3;
+  cursor: pointer;
+  user-select: none;
+}
+.corgi-img { width: 100%; display: block; animation: walkBounce 0.6s infinite alternate ease-in-out; }
+@keyframes walkBounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-10px); }
+}
+.corgi-img.happy {                       /* po kliknięciu */
+  animation: happyWiggle 0.25s infinite alternate ease-in-out;
+  filter: drop-shadow(0 0 10px var(--yellow)) brightness(1.15);
+}
+@keyframes happyWiggle {
+  from { transform: translateY(0) rotate(-6deg) translateX(-5px); }
+  to   { transform: translateY(-10px) rotate(6deg) translateX(5px); }
+}
+
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  animation: sparkleFly 0.55s ease-out forwards;
+}
+@keyframes sparkleFly {
+  0%   { opacity: 1; transform: scale(0.5); }
+  55%  { opacity: 1; transform: scale(1.3) translateY(-6px); }
+  100% { opacity: 0; transform: scale(0.7) translateY(-15px); }
+}
+
+.paw-print {                             /* ślady za corgim na ramce */
+  position: absolute; top: -1.1rem; z-index: 1;
+  font-size: 0.8rem;
+  opacity: 0.5;
+  pointer-events: none;
+  animation: pawFade 1.2s forwards;
+}
+@keyframes pawFade { to { opacity: 0; } }
+
+/* ---------- Konami: impreza ---------- */
+body.party .code-symbol { opacity: 0.35 !important; animation-duration: 5s !important; }
+body.party .terminal-text span { animation: colorCycle 0.4s infinite; }
+body.party .terminal-text span:nth-child(3n+2) { animation-delay: 0.13s; }
+body.party .terminal-text span:nth-child(3n+3) { animation-delay: 0.27s; }
+@keyframes colorCycle {
+  0%   { color: var(--blue); }
+  25%  { color: var(--red); }
+  50%  { color: var(--yellow); }
+  75%  { color: var(--green); }
+  100% { color: var(--blue); }
+}
+
+/* ---------- Socials (footer) ---------- */
+.socials { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.social-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-main); font-size: 0.88rem;
+  opacity: 0.65;
+  transition: all 0.3s ease;
+}
+.social-link:hover {
+  opacity: 1; color: var(--text-main);
+  border-color: var(--text-main);
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.05);
+}
+
+@media (max-width: 600px) {
+  .logo-img { height: 40px; }
+  .terminal-box { margin-top: 7rem; }
+  .terminal { padding: 20px 22px; }
+  .terminal-text { font-size: 0.85rem; }
+  .corgi-sprite { width: 110px; }
+  .social-link span { display: none; }
+}
+
+/* ---------- Mniej ruchu, gdy system o to prosi (corgi stoi, js/corgi.js) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  #bg-canvas { display: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

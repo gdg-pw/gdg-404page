@@ -1,32 +1,54 @@
-# GDG On Campus PW — Strona 404
+# Strona 404 GDG on Campus PW
 
-Strona błędu 404 dla domeny **gdgpw.pl**. Wyświetla się automatycznie, gdy użytkownik wpisze domenę lub subdomenę `gdgpw.pl`, która nie jest skonfigurowana w Nginx Proxy Manager.
+Strona błędu dla domeny **gdgpw.pl**. Pokazuje się, gdy ktoś wejdzie na subdomenę `gdgpw.pl`, której nie ma w Nginx Proxy Manager, albo na nieistniejącą ścieżkę (np. `cos.gdgpw.pl/jakas/strona`). Corgi z siatką na bugi chodzi po terminalu, a terminal pokazuje, jakiego adresu ktoś szukał.
+
+Czysty HTML, CSS i JS, bez buildów i zależności. Wygląd i układ plików jak w [gdg-jam-jar](https://github.com/gdg-pw/gdg-jam-jar).
 
 ## Jak to działa
 
-Nginx Proxy Manager pozwala ustawić domyślną stronę błędu dla niezdefiniowanych hostów. Gdy ktoś odwiedzi np. `cos.gdgpw.pl` bez istniejącego wpisu w NPM — ruch trafia do tego kontenera, który serwuje stronę 404.
+Nginx Proxy Manager kieruje ruch z nieznanych hostów do tego kontenera. Tutejszy `nginx.conf` odpowiada stroną z `index.html` na każdą ścieżkę:
 
-## Deployment
+- `/` zwraca stronę ze statusem 200 (na tym przechodzi sprawdzanie kontenera),
+- każda inna nieistniejąca ścieżka zwraca tę samą stronę ze statusem 404.
+
+Dlatego w `index.html` wszystkie ścieżki do plików zaczynają się od `/` (`/css/...`, `/assets/...`). Bez tego strona pod `/a/b/c` szukałaby stylów w `/a/b/css/` i rozsypałaby się.
+
+## Uruchomienie
+
+Ze względu na ścieżki od `/` strona potrzebuje serwera (dwuklik na `index.html` nie załaduje stylów):
 
 ```bash
-docker compose up -d --build
+python3 -m http.server 8000
 ```
 
-Kontener uruchamia się na porcie `8091`. W Nginx Proxy Manager: **New Proxy Host** → Forward Hostname `localhost`, Port `8091`.
+i wejdź na http://localhost:8000. Prosty serwer Pythona nie zrobi przekierowania z nieznanych ścieżek. Żeby sprawdzić je jak na serwerze, użyj Dockera: `docker compose up --build` i np. http://localhost:8091/cokolwiek.
 
-> Po każdej zmianie plików w `site/` wymagany rebuild: `docker compose up -d --build`
+## Gdzie co zmieniać
+
+| Co                                        | Plik                 |
+|-------------------------------------------|----------------------|
+| Teksty, terminal, przycisk, socials       | `index.html`         |
+| Kolory, czcionki, zaokrąglenia            | `css/variables.css`  |
+| Terminal, corgi, tło, impreza (Konami)    | `css/effects.css`    |
+| Chodzenie i kliknięcie corgiego           | `js/corgi.js`        |
+| Kropki terminala, wyświetlany adres       | `js/terminal.js`     |
+| Symbole w tle, Konami                     | `js/effects.js`      |
+| Corgi, logo, favicon                      | `assets/`            |
+
+Czcionki to Google Sans Flex (tekst) i Google Sans Code (terminal) z Google Fonts.
 
 ## Easter eggi
 
-| Akcja | Efekt |
-|---|---|
-| Kliknij corgiego | Skacze i iskrzy szczęściem |
-| Kliknij czerwoną kropkę terminala | Terminal "crashuje" |
-| Kliknij żółtą kropkę | Terminal minimalizuje |
-| Kliknij zieloną kropkę | Pokazuje dodatkowe logi |
-| `↑ ↑ ↓ ↓ ← → ← → B A` | 🎉 |
+| Akcja                             | Efekt                                  |
+|-----------------------------------|----------------------------------------|
+| Kliknij corgiego                  | Skacze i iskrzy szczęściem             |
+| Czerwona kropka terminala         | Terminal „crashuje”                    |
+| Żółta kropka                      | Terminal się minimalizuje              |
+| Zielona kropka                    | Dodatkowe logi                         |
+| `↑ ↑ ↓ ↓ ← → ← → B A`             | Impreza: kolory, szybkie tło, corgi biega |
 
-## Stack
+## Deploy
 
-- HTML/CSS/JS
-- nginx:alpine
+Kontener z `Dockerfile` (nginx z naszym `nginx.conf`), port `8091`. Po zmianie plików trzeba przebudować obraz: `docker compose up -d --build`.
+
+Każdy nowy plik w repo trafia na stronę, chyba że jest wpisany w `.dockerignore`. Portu i nazwy kontenera w `docker-compose.yml` nie zmieniaj, opiera się na nich konfiguracja serwera GDG.

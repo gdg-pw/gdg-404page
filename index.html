@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404: Nie znaleziono | GDG on Campus PW</title>
+  <meta name="description" content="Tej strony nie ma. GDG on Campus Politechnika Warszawska.">
+  <meta name="robots" content="noindex">
+
+  <!-- Wszystkie ścieżki od / : strona pokazuje się też pod cos.gdgpw.pl/jakas/sciezka (nginx.conf) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon.png">
+  <link rel="apple-touch-icon" href="/assets/icon.png">
+
+  <!-- Fonty z Google Fonts: Google Sans Flex (tekst) + Google Sans Code (terminal). Zmiana też w css/variables.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;600;700;800&family=Google+Sans+Code:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Kolejność ma znaczenie: variables -> base -> layout -> components -> effects -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/effects.css">
+</head>
+<body>
+
+  <!-- Tło z pływającymi symbolami (wypełnia js/effects.js) -->
+  <div id="bg-canvas"></div>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="https://gdgpw.pl"><img class="logo-img" src="/assets/logo-mark.webp" alt=""><span class="brand-text">Google Developer Group<br><small>on Campus PW</small></span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1><span class="big-404 gradient-text">404</span><br>Tu nic nie ma</h1>
+        <p class="muted">Tej strony nie ma albo ktoś ją przeniósł. Corgi przeszukał wszystko i&nbsp;wrócił z pustą siatką.</p>
+
+        <!-- Terminal z corgim na górnej ramce. Kliknij corgiego i kropki -->
+        <div class="terminal-box" id="terminal-box">
+          <div class="corgi-sprite" id="corgi">
+            <img class="corgi-img" src="/assets/corgi-bugs.webp" alt="Corgi z siatką na bugi">
+          </div>
+          <div class="terminal" id="terminal">
+            <div class="terminal-header">
+              <div class="dot red"></div>
+              <div class="dot yellow"></div>
+              <div class="dot green"></div>
+            </div>
+            <!-- Teksty terminala: zmieniaj śmiało. Kolory: t-green / t-blue / t-yellow / t-red. Adres wstawia js/terminal.js -->
+            <div class="terminal-text" id="terminal-text">
+              <span class="t-green">[GET]</span> <span id="requested"></span><br>
+              <span class="t-red">[STATUS]</span> 404: Nie znaleziono<br>
+              <span class="t-blue">[LOGI]</span> Corgi szukał, ale tu jest pusto<br>
+              <span class="t-yellow">[INFO]</span> Sugerowany powrót do bazy ↓
+            </div>
+          </div>
+        </div>
+
+        <a class="btn btn-primary btn-mono" href="https://gdgpw.pl">
+          <svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
+          $ cd /home
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <!-- Socials: usuń cały <a>...</a>, żeby wyłączyć -->
+      <div class="socials">
+        <a class="social-link" href="https://gdg.community.dev/gdg-on-campus-politechnika-warszawska-warsaw-poland/" target="_blank" rel="noopener">
+          <img src="/assets/socials/gdg.svg" width="22" height="22" alt=""><span>GDG Community</span>
+        </a>
+        <a class="social-link" href="https://www.instagram.com/gdg_pw/" target="_blank" rel="noopener">
+          <img src="/assets/socials/instagram.svg" width="22" height="22" alt=""><span>Instagram</span>
+        </a>
+        <a class="social-link" href="https://www.facebook.com/gdg.pw" target="_blank" rel="noopener">
+          <img src="/assets/socials/facebook.svg" width="22" height="22" alt=""><span>Facebook</span>
+        </a>
+        <a class="social-link" href="https://discord.com/invite/vNW4vXVwqH" target="_blank" rel="noopener">
+          <img src="/assets/socials/discord.svg" width="22" height="22" alt=""><span>Discord</span>
+        </a>
+        <a class="social-link" href="https://www.linkedin.com/company/google-developer-group-pw/" target="_blank" rel="noopener">
+          <img src="/assets/socials/linkedin.svg" width="22" height="22" alt=""><span>LinkedIn</span>
+        </a>
+      </div>
+      <p class="muted small">GDG on Campus Politechnika Warszawska</p>
+    </div>
+  </footer>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/terminal.js"></script>
+  <script src="/js/corgi.js"></script>
+  <script src="/js/effects.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+/* Komponenty: duże 404, przyciski */
+
+.big-404 { display: inline-block; font-size: clamp(5rem, 18vw, 9rem); line-height: 1; letter-spacing: -0.02em; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.8rem 1.6rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  font: inherit; font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary { background: var(--primary); color: var(--on-accent); }
+.btn-primary:hover { box-shadow: var(--glow); color: var(--on-accent); }
+
+.btn-mono { font-family: var(--font-mono); font-weight: 700; }   /* „$ cd /home” jak w terminalu */
+.btn svg { width: 1.3em; height: 1.3em; fill: currentColor; }

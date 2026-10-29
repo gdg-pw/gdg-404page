@@ -1,0 +1,36 @@
+/* Układ: kontener, header, hero, footer */
+
+.container { max-width: var(--width); margin: 0 auto; padding: 0 1.25rem; }
+
+body { min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1; }   /* footer zawsze na dole, nawet na wysokim ekranie */
+
+/* Header */
+.header {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg-dark) var(--header-opacity), transparent);
+  -webkit-backdrop-filter: blur(var(--header-blur));
+  backdrop-filter: blur(var(--header-blur));
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  display: flex; justify-content: space-between; align-items: center; height: 60px;
+  max-width: calc(var(--width) + var(--header-shift) * 2);  /* szerszy header = logo wędruje na bok */
+}
+.brand { display: flex; align-items: center; gap: 0.7rem; color: var(--text-main); }
+.brand:hover { color: var(--text-main); }
+.brand-text { font-size: 0.95rem; font-weight: 600; line-height: 1.2; }
+.brand-text small { font-size: inherit; font-weight: 400; color: var(--text-muted); }
+
+/* Hero */
+.hero { padding: 4rem 0 3rem; text-align: center; }
+.hero p { margin: 1rem auto 0; max-width: 34rem; }
+.hero .btn { margin-top: 2.5rem; }
+
+/* Footer */
+.footer { padding: 2rem 0; border-top: 1px solid var(--border); text-align: center; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .hero { padding: 2.5rem 0 2rem; }
+}
